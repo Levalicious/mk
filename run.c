@@ -71,7 +71,7 @@ sched(void)
 				else if(explain)
 					Bprint(&bout, "no touch of virtual '%s'\n", n->name);
 			}
-			n->time = time((long *)0);
+			n->time = mknow();
 			MADESET(n, MADE);
 		}
 	} else {

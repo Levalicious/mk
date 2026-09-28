@@ -1,3 +1,5 @@
 *.o
 *.a
 /mk
+/test/chain/mid
+/test/chain/out

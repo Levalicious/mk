@@ -35,6 +35,8 @@ ${TARG}: lib9/lib9.a ${OFILES}
 
 test: ${TARG}
 	MKROOT=${MKROOT} objtype=${OBJTYPE} ./${TARG} -f mkfile.test use-sh
+	# nanosecond mtimes: a chain of copies made within one second is up to date on the next run
+	cd test/chain && rm -f mid out && ../../${TARG} out > /dev/null && test "$$(../../${TARG} -n out 2>&1)" = "mk: 'out' is up to date" && echo "a chain made within one second is up to date on the next run: ok"
 
 install: all
 	mkdir -p ${DESTDIR}${PREFIX}/bin ${DESTDIR}${MANPREFIX}/man1

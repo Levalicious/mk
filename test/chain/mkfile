@@ -1,0 +1,5 @@
+# a chain made within one second: out from mid from in; the second mk must find it up to date
+out: mid
+	cp mid out
+mid: in
+	cp in mid

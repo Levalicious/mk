@@ -138,7 +138,7 @@ atimes(char *ar)
 		return;
 	}
 	while(readn(fd, (char *)&h, sizeof(h)) == sizeof(h)){
-		t = atol(h.date);
+		t = atol(h.date) * MKNS;	/* the header holds seconds; times are nanoseconds */
 		if(t == 0)	/* as it sometimes happens; thanks ken */
 			t = 1;
 		namelen = 0;

@@ -66,7 +66,7 @@ timeinit(char *s)
 	Rune r;
 	int c, n;
 
-	t = time(0);
+	t = mknow();
 	while (*s) {
 		cp = s;
 		do{

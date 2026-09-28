@@ -42,6 +42,7 @@ int	match(char*, char*, char*, Shell*);
 char *membername(char*, int, char*);
 void	mk(char*);
 unsigned long	mkmtime(char*);
+long	mknow(void);
 long	mtime(char*);
 Arc	*newarc(Node*, Rule*, char*, Resub*);
 Bufblock *newbuf(void);

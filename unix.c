@@ -334,6 +334,12 @@ rcopy(char **to, Resub *match, int n)
 	}
 }
 
+/*
+ * Times are nanoseconds since the epoch (a long: LP64 hosts). The seconds mk compared until 2026-09-28 made a target
+ * built in the same second as its prerequisite look stale (outofdate is <=, rightly, for stamps that coarse), so a
+ * program linked right after its objects were compiled relinked on every mk. The nanoseconds are in the inode
+ * already; stat returns them beside the seconds.
+ */
 unsigned long
 mkmtime(char *name)
 {
@@ -342,5 +348,14 @@ mkmtime(char *name)
 	if(stat(name, &st) < 0)
 		return 0;
 
-	return st.st_mtime;
+	return (unsigned long)st.st_mtim.tv_sec * MKNS + st.st_mtim.tv_nsec;
+}
+
+long
+mknow(void)
+{
+	struct timeval tv;
+
+	gettimeofday(&tv, 0);
+	return (long)tv.tv_sec * MKNS + (long)tv.tv_usec * 1000;
 }

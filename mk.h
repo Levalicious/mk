@@ -2,6 +2,7 @@
 
 #undef assert
 #define	assert	mkassert
+#define	MKNS	1000000000L	/* a second, in the nanoseconds times are kept in */
 extern Biobuf bout;
 
 typedef struct Bufblock
@@ -88,7 +89,7 @@ typedef struct Arc
 typedef struct Node
 {
 	char		*name;
-	long		time;
+	long		time;		/* modification time, nanoseconds since the epoch (mkmtime); 0 = does not exist */
 	unsigned short	flags;
 	Arc		*prereqs;
 	struct Node	*next;		/* list for a rule */
