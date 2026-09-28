@@ -12,6 +12,6 @@ jobs:
       - name: the action builds and puts mk on the PATH
         uses: ./
       - run: |
-          which mk toposort
+          which mk
           echo "objtype=$objtype"
           mk -f mkfile.test use-sh

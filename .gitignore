@@ -1,4 +1,3 @@
 *.o
 *.a
 /mk
-/toposort/toposort

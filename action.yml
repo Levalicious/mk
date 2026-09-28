@@ -1,5 +1,5 @@
 name: setup-mk
-description: Build Plan 9 mk (this repository, at the commit the caller pinned) and toposort, cached by commit; put them on PATH; export objtype.
+description: Build Plan 9 mk (this repository, at the commit the caller pinned), cached by commit; put it on PATH; export objtype.
 inputs:
   objtype:
     description: the mkroot architecture name exported as $objtype
@@ -26,7 +26,7 @@ runs:
         make -C "${{ github.action_path }}" -j"$(nproc)"
         make -C "${{ github.action_path }}" test
         mkdir -p "${{ steps.ref.outputs.bin }}"
-        cp "${{ github.action_path }}/mk" "${{ github.action_path }}/toposort/toposort" "${{ steps.ref.outputs.bin }}/"
+        cp "${{ github.action_path }}/mk" "${{ steps.ref.outputs.bin }}/"
     - shell: bash
       run: |
         echo "${{ steps.ref.outputs.bin }}" >> "$GITHUB_PATH"

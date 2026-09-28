@@ -1,7 +1,0 @@
-<$MKROOT/$objtype/mkfile
-<$MKROOT/proto/mkfile.proto
-
-TARG=toposort
-OFILES=toposort.$O
-
-<$MKROOT/proto/mkone
