@@ -1,0 +1,33 @@
+name: setup-mk
+description: Build Plan 9 mk (this repository, at the commit the caller pinned) and toposort, cached by commit; put them on PATH; export objtype.
+inputs:
+  objtype:
+    description: the mkroot architecture name exported as $objtype
+    default: x86_64
+runs:
+  using: composite
+  steps:
+    - id: ref
+      shell: bash
+      run: |
+        # the commit this action runs from: the action's own path carries it (…/_actions/Levalicious/mk/<ref>)
+        ref="${{ github.action_ref }}"
+        echo "ref=$ref" >> "$GITHUB_OUTPUT"
+        echo "bin=$HOME/.local/mk-$ref/bin" >> "$GITHUB_OUTPUT"
+    - id: cache
+      uses: actions/cache@v4
+      with:
+        path: ${{ steps.ref.outputs.bin }}
+        key: mk-${{ runner.os }}-${{ runner.arch }}-${{ steps.ref.outputs.ref }}
+    - if: steps.cache.outputs.cache-hit != 'true'
+      shell: bash
+      run: |
+        set -e
+        make -C "${{ github.action_path }}" -j"$(nproc)"
+        make -C "${{ github.action_path }}" test
+        mkdir -p "${{ steps.ref.outputs.bin }}"
+        cp "${{ github.action_path }}/mk" "${{ github.action_path }}/toposort/toposort" "${{ steps.ref.outputs.bin }}/"
+    - shell: bash
+      run: |
+        echo "${{ steps.ref.outputs.bin }}" >> "$GITHUB_PATH"
+        echo "objtype=${{ inputs.objtype }}" >> "$GITHUB_ENV"

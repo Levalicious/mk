@@ -1,0 +1,17 @@
+name: ci
+on:
+  push:
+  pull_request:
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: make -j"$(nproc)"
+      - run: make test
+      - name: the action builds and puts mk on the PATH
+        uses: ./
+      - run: |
+          which mk toposort
+          echo "objtype=$objtype"
+          mk -f mkfile.test use-sh
